@@ -30,8 +30,7 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core")
-	testImplementation("com.google.code.gson:gson:2.10.1")
-}
+	implementation("com.google.code.gson:gson:2.8.9")}
 
 kotlin {
 	compilerOptions {
