@@ -1,4 +1,4 @@
-package api.product_catalog
+package api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
