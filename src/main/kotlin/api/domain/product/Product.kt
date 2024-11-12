@@ -11,4 +11,15 @@ data class Product(
     val description: String,
     @Enumerated(EnumType.STRING)
     val category: Category
-)
+) {
+    fun calculateDiscountedPrice(): Product {
+        val discount = when {
+            sku.endsWith("5") -> 0.30
+            category == Category.HOME_KITCHEN -> 0.25
+            category == Category.ELECTRONICS -> 0.15
+            else -> 0.0
+        }
+        val discountedPrice = if (discount > 0) price * (1 - discount) else return this
+        return this.copy(price = discountedPrice)
+    }
+}

@@ -13,13 +13,7 @@ class ProductService(
         val products = productRepository.findAll(category, null)
 
         val discountedProducts = products.map { product ->
-            val discount = when {
-                product.sku.endsWith("5") -> 0.30
-                product.category == Category.HOME_KITCHEN -> 0.25
-                product.category == Category.ELECTRONICS -> 0.15
-                else -> 0.0
-            }
-            product.copy(price = product.price * (1 - discount))
+            product.calculateDiscountedPrice()
         }
         return Gson().toJson(discountedProducts)
     }

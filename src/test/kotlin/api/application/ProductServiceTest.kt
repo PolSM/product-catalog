@@ -91,4 +91,23 @@ class ProductServiceTest {
         val expectedJson = """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"SPORTS"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
+
+    @Test
+    fun `should return a list of products with all the type of discounts`() {
+        val products = listOf(
+            Product("SKU0001", 100.00, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
+            Product("SKU0005", 100.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS),
+            Product("SKU0003", 100.00, "Blender with 10 speeds", Category.HOME_KITCHEN),
+        )
+        `when`(productRepository.findAll(null, null)).thenReturn(products)
+
+        val result = productService.getProducts(null, "sku")
+
+        val expectedJson = Gson().toJson(listOf(
+            Product("SKU0001", 85.00, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
+            Product("SKU0005", 70.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS),
+            Product("SKU0003", 75.00, "Blender with 10 speeds", Category.HOME_KITCHEN),
+        ))
+        assertEquals(expectedJson, result)
+    }
 }
