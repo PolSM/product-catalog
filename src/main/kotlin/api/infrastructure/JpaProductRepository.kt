@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface JpaProductRepository : ProductRepository, JpaRepository<Product, String> {
     @Query("SELECT p FROM Product p WHERE (:category IS NULL OR p.category = :category)")
-    override fun findAll(@Param("category") category: Category?, sort: Sort?): List<Product>
+    override fun findAll(@Param("category") category: Category?, sort: Sort): List<Product>
 }

@@ -2,6 +2,7 @@ package api.presentation
 
 import api.application.ProductService
 import api.domain.product.Category
+import api.domain.product.CategoryConverter
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,10 +16,13 @@ class ProductController(private val productService: ProductService) {
 
     @GetMapping
     fun getProducts(
-        @RequestParam(required = false) category: Category?,
-        @RequestParam(required = false) sort: String
+        @RequestParam(required = false) category: String?,
+        @RequestParam(required = false) sort: String?
     ): ResponseEntity<String> {
-        val products = productService.getProducts(category, Sort.by(sort))
+        val products = productService.getProducts(
+            CategoryConverter.convertToEntityAttribute(category),
+            if (sort.isNullOrEmpty()) Sort.unsorted() else Sort.by(sort)
+        )
         return ResponseEntity.ok(products)
     }
 
