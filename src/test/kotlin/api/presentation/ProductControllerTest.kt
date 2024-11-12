@@ -9,6 +9,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.domain.Sort
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -28,7 +29,7 @@ class ProductControllerTest {
             Product("SKU0001", 19.99, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
             Product("SKU0002", 499.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS)
         )
-        `when`(productService.getProducts(null, null)).thenReturn(Gson().toJson(products))
+        `when`(productService.getProducts(null, Sort.unsorted())).thenReturn(Gson().toJson(products))
 
         val expectedJson = """
             [

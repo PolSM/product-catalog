@@ -3,19 +3,27 @@ package api.infrastructure
 import api.domain.product.Category
 import api.domain.product.Product
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.data.domain.Sort
+import org.springframework.test.context.ActiveProfiles
 
 @ExtendWith(SpringExtension::class)
 @DataJpaTest
+@ActiveProfiles("test")
 class JpaProductRepositoryTest {
 
     @Autowired
     private lateinit var jpaProductRepository: JpaProductRepository
+
+    @BeforeEach
+    fun setUp() {
+        jpaProductRepository.deleteAll()
+    }
 
     @Test
     fun `should findAll without filtering or sorting`() {
@@ -24,7 +32,7 @@ class JpaProductRepositoryTest {
         jpaProductRepository.save(aProduct)
         jpaProductRepository.save(anotherProduct)
 
-        val products = jpaProductRepository.findAll(null, null)
+        val products = jpaProductRepository.findAll(null, Sort.unsorted())
 
         assertEquals(listOf(aProduct, anotherProduct), products)
     }
@@ -36,7 +44,7 @@ class JpaProductRepositoryTest {
         jpaProductRepository.save(aProduct)
         jpaProductRepository.save(anotherProduct)
 
-        val products = jpaProductRepository.findAll(Category.ELECTRONICS, null)
+        val products = jpaProductRepository.findAll(Category.ELECTRONICS, Sort.unsorted())
 
         assertEquals(listOf(aProduct), products)
     }
