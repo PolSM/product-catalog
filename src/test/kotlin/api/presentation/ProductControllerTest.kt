@@ -28,7 +28,7 @@ class ProductControllerTest {
             Product("SKU0001", 19.99, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
             Product("SKU0002", 499.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS)
         )
-        `when`(productService.getProducts(null, "sku")).thenReturn(Gson().toJson(products))
+        `when`(productService.getProducts(null, null)).thenReturn(Gson().toJson(products))
 
         val expectedJson = """
             [

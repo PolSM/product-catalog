@@ -32,7 +32,7 @@ class ProductServiceTest {
         )
         `when`(productRepository.findAll(null, null)).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, "sku")
+        val discountedProducts = productService.getProducts(null, null)
 
         val expectedJson = """[{"sku":"SKU0001","price":85.0,"description":"Wireless Mouse","category":"ELECTRONICS"}]"""
         assertEquals(expectedJson, discountedProducts)
@@ -50,7 +50,7 @@ class ProductServiceTest {
         )
         `when`(productRepository.findAll(null, null)).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, "sku")
+        val discountedProducts = productService.getProducts(null, null)
 
         val expectedJson = """[{"sku":"SKU0002","price":75.0,"description":"Blender","category":"HOME_KITCHEN"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
@@ -68,7 +68,7 @@ class ProductServiceTest {
         )
         `when`(productRepository.findAll(null, null)).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, "sku")
+        val discountedProducts = productService.getProducts(null, null)
 
         val expectedJson = """[{"sku":"SKU0005","price":70.0,"description":"Special Item","category":"ELECTRONICS"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
@@ -86,7 +86,7 @@ class ProductServiceTest {
         )
         `when`(productRepository.findAll(null, null)).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, "sku")
+        val discountedProducts = productService.getProducts(null, null)
 
         val expectedJson = """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"SPORTS"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
@@ -101,7 +101,7 @@ class ProductServiceTest {
         )
         `when`(productRepository.findAll(null, null)).thenReturn(products)
 
-        val result = productService.getProducts(null, "sku")
+        val result = productService.getProducts(null, null)
 
         val expectedJson = Gson().toJson(listOf(
             Product("SKU0001", 85.00, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),

@@ -4,5 +4,4 @@ import org.springframework.data.domain.Sort
 
 interface ProductRepository {
     fun findAll(category: Category?, sort: Sort?): List<Product>
-    fun save(product: Product): Product
 }
