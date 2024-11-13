@@ -30,7 +30,11 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core")
-	implementation("com.google.code.gson:gson:2.8.9")}
+	implementation("com.google.code.gson:gson:2.9.1")
+	testImplementation("org.apache.logging.log4j:log4j-core:2.20.0")
+	testImplementation("org.apache.logging.log4j:log4j-api:2.20.0")
+	testImplementation("org.apache.logging.log4j:log4j-slf4j-impl:2.20.0")
+}
 
 kotlin {
 	compilerOptions {

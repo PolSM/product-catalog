@@ -23,3 +23,8 @@ The Products API was created as a flexible, scalable service to manage a product
 
 - **Decision**: Used an H2 in-memory database for local development and testing.
 - **Reason**: H2 is lightweight, fast, and easy to set up, making it ideal for testing. For production, I plan to use a Dockerized MySQL instance on an `alpine` image for a balance of performance and scalability.
+
+### Logging with SLF4J
+
+- **Decision**: Integrated SLF4J for logging to provide detailed information about the application’s behavior.
+- **Reason**: Logging is crucial for debugging, monitoring, and maintaining the application in production.
