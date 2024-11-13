@@ -2,7 +2,7 @@ package api.application
 
 import api.domain.product.Category
 import api.domain.product.Product
-import api.domain.product.ProductRepository
+import api.infrastructure.JpaProductRepository
 import com.google.gson.Gson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort
 class ProductServiceTest {
 
     private lateinit var productService: ProductService
-    private val productRepository: ProductRepository = Mockito.mock(ProductRepository::class.java)
+    private val productRepository: JpaProductRepository = Mockito.mock(JpaProductRepository::class.java)
 
     @BeforeEach
     fun setUp() {
@@ -35,7 +35,7 @@ class ProductServiceTest {
 
         val discountedProducts = productService.getProducts(null, Sort.unsorted())
 
-        val expectedJson = """[{"sku":"SKU0001","price":85.0,"description":"Wireless Mouse","category":"ELECTRONICS"}]"""
+        val expectedJson = """[{"sku":"SKU0001","price":85.0,"description":"Wireless Mouse","category":"Electronics"}]"""
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -53,7 +53,7 @@ class ProductServiceTest {
 
         val discountedProducts = productService.getProducts(null, Sort.unsorted())
 
-        val expectedJson = """[{"sku":"SKU0002","price":75.0,"description":"Blender","category":"HOME_KITCHEN"}]""".trimIndent()
+        val expectedJson = """[{"sku":"SKU0002","price":75.0,"description":"Blender","category":"Home \u0026 Kitchen"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -71,7 +71,7 @@ class ProductServiceTest {
 
         val discountedProducts = productService.getProducts(null, Sort.unsorted())
 
-        val expectedJson = """[{"sku":"SKU0005","price":70.0,"description":"Special Item","category":"ELECTRONICS"}]""".trimIndent()
+        val expectedJson = """[{"sku":"SKU0005","price":70.0,"description":"Special Item","category":"Electronics"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -89,7 +89,7 @@ class ProductServiceTest {
 
         val discountedProducts = productService.getProducts(null, Sort.unsorted())
 
-        val expectedJson = """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"SPORTS"}]""".trimIndent()
+        val expectedJson = """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"Sports"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
