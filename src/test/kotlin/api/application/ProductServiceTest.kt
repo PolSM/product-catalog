@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Pageable
 
 class ProductServiceTest {
 
@@ -31,11 +31,12 @@ class ProductServiceTest {
                 category = Category.ELECTRONICS
             ),
         )
-        `when`(productRepository.findAll(null, Sort.unsorted())).thenReturn(products)
+        `when`(productRepository.findAll(null, Pageable.unpaged())).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, Sort.unsorted())
+        val discountedProducts = productService.getProducts(null, Pageable.unpaged())
 
-        val expectedJson = """[{"sku":"SKU0001","price":85.0,"description":"Wireless Mouse","category":"Electronics"}]"""
+        val expectedJson =
+            """[{"sku":"SKU0001","price":85.0,"description":"Wireless Mouse","category":"Electronics"}]"""
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -49,11 +50,12 @@ class ProductServiceTest {
                 category = Category.HOME_KITCHEN
             )
         )
-        `when`(productRepository.findAll(null, Sort.unsorted())).thenReturn(products)
+        `when`(productRepository.findAll(null, Pageable.unpaged())).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, Sort.unsorted())
+        val discountedProducts = productService.getProducts(null, Pageable.unpaged())
 
-        val expectedJson = """[{"sku":"SKU0002","price":75.0,"description":"Blender","category":"Home \u0026 Kitchen"}]""".trimIndent()
+        val expectedJson =
+            """[{"sku":"SKU0002","price":75.0,"description":"Blender","category":"Home \u0026 Kitchen"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -67,11 +69,12 @@ class ProductServiceTest {
                 category = Category.ELECTRONICS
             )
         )
-        `when`(productRepository.findAll(null, Sort.unsorted())).thenReturn(products)
+        `when`(productRepository.findAll(null, Pageable.unpaged())).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, Sort.unsorted())
+        val discountedProducts = productService.getProducts(null, Pageable.unpaged())
 
-        val expectedJson = """[{"sku":"SKU0005","price":70.0,"description":"Special Item","category":"Electronics"}]""".trimIndent()
+        val expectedJson =
+            """[{"sku":"SKU0005","price":70.0,"description":"Special Item","category":"Electronics"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -85,11 +88,12 @@ class ProductServiceTest {
                 category = Category.SPORTS
             )
         )
-        `when`(productRepository.findAll(null, Sort.unsorted())).thenReturn(products)
+        `when`(productRepository.findAll(null, Pageable.unpaged())).thenReturn(products)
 
-        val discountedProducts = productService.getProducts(null, Sort.unsorted())
+        val discountedProducts = productService.getProducts(null, Pageable.unpaged())
 
-        val expectedJson = """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"Sports"}]""".trimIndent()
+        val expectedJson =
+            """[{"sku":"SKU0003","price":100.0,"description":"Regular Item","category":"Sports"}]""".trimIndent()
         assertEquals(expectedJson, discountedProducts)
     }
 
@@ -100,15 +104,17 @@ class ProductServiceTest {
             Product("SKU0005", 100.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS),
             Product("SKU0003", 100.00, "Blender with 10 speeds", Category.HOME_KITCHEN),
         )
-        `when`(productRepository.findAll(null, Sort.unsorted())).thenReturn(products)
+        `when`(productRepository.findAll(null, Pageable.unpaged())).thenReturn(products)
 
-        val result = productService.getProducts(null, Sort.unsorted())
+        val result = productService.getProducts(null, Pageable.unpaged())
 
-        val expectedJson = Gson().toJson(listOf(
-            Product("SKU0001", 85.00, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
-            Product("SKU0005", 70.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS),
-            Product("SKU0003", 75.00, "Blender with 10 speeds", Category.HOME_KITCHEN),
-        ))
+        val expectedJson = Gson().toJson(
+            listOf(
+                Product("SKU0001", 85.00, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
+                Product("SKU0005", 70.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS),
+                Product("SKU0003", 75.00, "Blender with 10 speeds", Category.HOME_KITCHEN),
+            )
+        )
         assertEquals(expectedJson, result)
     }
 }

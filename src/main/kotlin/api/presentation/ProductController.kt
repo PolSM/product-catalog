@@ -6,11 +6,13 @@ import api.domain.product.ProductsNotFoundException
 import jakarta.servlet.http.HttpServletRequest
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.data.domain.Pageable
 
 @RestController
 @RequestMapping("/api/products")
@@ -21,11 +23,14 @@ class ProductController(private val productService: ProductService) {
     @GetMapping
     fun getProducts(
         @RequestParam(required = false) category: String?,
-        @RequestParam(required = false) sort: String?
+        @RequestParam(required = false) sort: String?,
+        @RequestParam(required = false) page: Int?,
+        @RequestParam(required = false) size: Int?,
     ): ResponseEntity<String> {
+        val pageable: Pageable = createPagination(sort, page, size)
         val products = productService.getProducts(
             CategoryConverter.convertToEntityAttribute(category),
-            if (sort.isNullOrEmpty()) Sort.unsorted() else Sort.by(sort)
+            pageable
         )
         return ResponseEntity.ok(products)
     }
@@ -67,4 +72,19 @@ class ProductController(private val productService: ProductService) {
         )
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
     }
+
+    private fun createPagination(
+        sort: String?,
+        page: Int?,
+        size: Int?
+    ): Pageable {
+        val sortObj = if (sort.isNullOrEmpty()) Sort.unsorted() else Sort.by(sort)
+        val pageable: Pageable = if (page != null && size != null) {
+            PageRequest.of(page, size, sortObj)
+        } else {
+            Pageable.unpaged(sortObj)
+        }
+        return pageable
+    }
+
 }

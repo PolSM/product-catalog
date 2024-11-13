@@ -10,7 +10,7 @@ import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.data.domain.Sort
+import org.springframework.data.domain.Pageable
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -30,7 +30,7 @@ class ProductControllerTest {
             Product("SKU0001", 19.99, "Wireless Mouse with ergonomic design", Category.ELECTRONICS),
             Product("SKU0002", 499.00, "4K Ultra HD Smart TV, 55 inches", Category.ELECTRONICS)
         )
-        `when`(productService.getProducts(null, Sort.unsorted())).thenReturn(Gson().toJson(products))
+        `when`(productService.getProducts(null, Pageable.unpaged())).thenReturn(Gson().toJson(products))
 
         val expectedJson = """
             [
@@ -43,9 +43,15 @@ class ProductControllerTest {
             .andExpect(status().isOk)
             .andExpect(content().json(expectedJson))
     }
+
     @Test
     fun `should return 400 for illegal argument`() {
-        `when`(productService.getProducts(null, Sort.unsorted())).thenThrow(IllegalArgumentException("Invalid argument"))
+        `when`(
+            productService.getProducts(
+                null,
+                Pageable.unpaged()
+            )
+        ).thenThrow(IllegalArgumentException("Invalid argument"))
 
         mockMvc.perform(get("/api/products"))
             .andExpect(status().isBadRequest)
@@ -61,7 +67,12 @@ class ProductControllerTest {
 
     @Test
     fun `should return 404 when products not found`() {
-        `when`(productService.getProducts(null, Sort.unsorted())).thenThrow(ProductsNotFoundException("No products found for the given criteria"))
+        `when`(
+            productService.getProducts(
+                null,
+                Pageable.unpaged()
+            )
+        ).thenThrow(ProductsNotFoundException("No products found for the given criteria"))
 
         mockMvc.perform(get("/api/products"))
             .andExpect(status().isNotFound)
